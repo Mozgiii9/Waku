@@ -17,13 +17,13 @@ display_logo() {
 # Функция для установки ноды Waku
 install_waku_node() {
   read -p "Введите Вашу RPC ссылку из Alchemy(ETH App Sepolia Network): " rpc_link
-  read -p "Введите Private Key от кошелька с Ethereum Sepolia. Убедитесь, что на балансе есть больше 0.1 ETH Sepolia: " private_key
+  read -s -p "Введите Private Key от кошелька с Ethereum Sepolia. Убедитесь, что на балансе есть больше 0.1 ETH Sepolia: " private_key
   read -s -p "Создайте пароль: " password
   echo
 
   sudo apt update && sudo apt upgrade -y
   sudo apt-get install build-essential git libpq5 jq -y
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  yes "" | curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
   source "$HOME/.cargo/env"
   rustc --version
   sudo apt install docker.io -y
@@ -40,7 +40,7 @@ install_waku_node() {
   sed -i "s|RLN_RELAY_CRED_PASSWORD=.*|RLN_RELAY_CRED_PASSWORD=\"$password\"|" .env
 
   ./register_rln.sh
-  sudo ufw enable
+  sudo ufw enable -y
   sudo ufw allow 22
   sudo ufw allow 3000
   sudo ufw allow 8545
