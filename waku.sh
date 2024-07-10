@@ -17,8 +17,8 @@ display_logo() {
 # Функция для установки ноды Waku
 install_waku_node() {
   read -p "Введите Вашу RPC ссылку из Alchemy(ETH App Sepolia Network): " rpc_link
-  read -s -p "Введите Private Key от кошелька с Ethereum Sepolia. Убедитесь, что на балансе есть больше 0.1 ETH Sepolia: " private_key
-  read -s -p "Создайте пароль: " password
+  read -p "Введите Private Key от кошелька с Ethereum Sepolia. Убедитесь, что на балансе есть больше 0.1 ETH Sepolia: " private_key
+  read -p "Создайте пароль: " password
   echo
 
   sudo apt update && sudo apt upgrade -y
@@ -40,7 +40,7 @@ install_waku_node() {
   sed -i "s|RLN_RELAY_CRED_PASSWORD=.*|RLN_RELAY_CRED_PASSWORD=\"$password\"|" .env
 
   ./register_rln.sh
-  sudo ufw enable -y
+  sudo ufw enable
   sudo ufw allow 22
   sudo ufw allow 3000
   sudo ufw allow 8545
@@ -49,7 +49,8 @@ install_waku_node() {
   sudo ufw allow 30304
   docker-compose up -d
 
-  echo "Установка ноды Waku завершена! Вы можете следить за состоянием своей ноды через Grafana по адресу: IP-АДРЕС-СЕРВЕРА:3000/d/yns_4vFVk/nwaku-monitoring?orgId=1&refresh=1m . Также, Вы можете отследить запросы ноды в своем личном кабинете Alchemy."
+  server_ip=$(hostname -I | awk '{print $1}')
+  echo "Установка ноды Waku завершена! Вы можете следить за состоянием своей ноды через Grafana по адресу: http://$server_ip:3000/d/yns_4vFVk/nwaku-monitoring?orgId=1&refresh=1m . Также, Вы можете отследить запросы ноды в своем личном кабинете Alchemy."
   main_menu
 }
 
