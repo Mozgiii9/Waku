@@ -39,6 +39,7 @@ install_waku_node() {
   sed -i "s|ETH_TESTNET_KEY=.*|ETH_TESTNET_KEY=$private_key|" .env
   sed -i "s|RLN_RELAY_CRED_PASSWORD=.*|RLN_RELAY_CRED_PASSWORD=\"$password\"|" .env
 
+  git pull origin master
   ./register_rln.sh
   sudo ufw enable
   sudo ufw allow 22
